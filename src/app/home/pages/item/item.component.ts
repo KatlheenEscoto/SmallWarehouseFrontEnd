@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../../../services/item.service';
 import { Item } from '../../../models/item';
+import { Pagination } from '../../../models/pagination';
 
 @Component({
   selector: 'app-item',
@@ -9,18 +10,26 @@ import { Item } from '../../../models/item';
 })
 export class ItemComponent implements OnInit {
 
-  items: Item[];
+  currentFilter: string;
+  searchString: string;
+  pageNumber: number;
+
+  pagination: Pagination;
 
   constructor(private itemService: ItemService) { }
 
   ngOnInit(): void {
-    this.getItems();
+    this.currentFilter = '',
+    this.searchString = '',
+    this.pageNumber = 3;
+    this.getItems(this.currentFilter, this.searchString, this.pageNumber);
   }
 
-  public getItems(): void {
-    this.itemService.getItems().subscribe(
+  public getItems(currentFilter: string, searchString: string, pageNumber: number): void {
+    this.itemService.getItemIndex(currentFilter, searchString, pageNumber).subscribe(
       respuesta => {
-        console.log(respuesta);
+        this.pagination = respuesta;
+        console.log(this.pagination.items);
       }
     );
   }
