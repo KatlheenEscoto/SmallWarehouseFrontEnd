@@ -24,7 +24,7 @@ export class ItemService {
       params : {
         'currentFilter': currentFilter,
         'searchString': searchString,
-        'pageNumber': pageNumber
+        'pageNumber': pageNumber.toString()
       },
     },
     );
