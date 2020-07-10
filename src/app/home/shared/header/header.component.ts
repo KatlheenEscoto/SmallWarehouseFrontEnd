@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TokenStorageService } from '../../../services/token-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router,
+              private tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
+  }
+
+  public logOut(){
+    this.tokenStorage.signOut();
+    this.router.navigateByUrl(`/login`, {skipLocationChange: true}).then(()=>
+    this.router.navigate([`/login`]));
   }
 
 }
